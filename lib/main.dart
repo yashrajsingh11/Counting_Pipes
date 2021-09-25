@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pipecount/cmr/cam.dart';
@@ -6,13 +8,7 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => EnPoint()),
-        ChangeNotifierProvider(create: (context) => CmKK()),
-      ],
-      child: MyApp(),
-    ),
+    MyApp(),
   );
 }
 
@@ -20,12 +16,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyHomePage(),
+      home: MultiProvider(providers: [
+        ChangeNotifierProvider(create: (context) => EnPoint()),
+        ChangeNotifierProvider(create: (context) => CmKK()),
+      ], child: HomePage()),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cm = Provider.of<CmKK>(context);
@@ -37,31 +36,26 @@ class MyHomePage extends StatelessWidget {
         title: Text("Test"),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(width: double.infinity),
           cm.file == null
-              ? Center(
+              ? Align(
+                  alignment: Alignment.center,
                   child: CupertinoButton(
                     color: Colors.blueAccent,
-                    child: Text('Hello'),
+                    child: Text('Select an Image'),
                     onPressed: () => cm.optionsDialogBox(context),
                   ),
                 )
               : Container(
-                  height: 500,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        width: 500,
-                        child: Image.file(cm.file),
-                      ),
-                      Container(
-                        width: 500,
-                        color: Colors.white.withOpacity(0.3),
-                      ),
-                    ],
-                  ),
+                  width: 400,
+                  child: network.daata.isEmpty
+                      ? Image.file(cm.file, fit: BoxFit.fitWidth)
+                      : Image.memory(
+                          base64Decode(network.daata.first.image),
+                          fit: BoxFit.fitWidth,
+                        ),
                 ),
           cm.file != null
               ? Padding(
@@ -72,17 +66,18 @@ class MyHomePage extends StatelessWidget {
                       CupertinoButton(
                         color: Colors.red,
                         child: Text('Remove'),
-                        onPressed: () => cm.removeimage(),
+                        onPressed: () {
+                          cm.removeimage();
+                          network.removeImage();
+                        },
                       ),
                       SizedBox(width: 20),
                       CupertinoButton(
                         color: Colors.blueAccent,
-                        child: Text('Show'),
+                        child: Text('Upload'),
                         onPressed: () async {
                           try {
                             await network.getCl(cm.file);
-                            cm.removeimage();
-                            await network.getData();
                           } catch (e) {
                             print(e);
                           }
@@ -91,7 +86,38 @@ class MyHomePage extends StatelessWidget {
                     ],
                   ),
                 )
-              : SizedBox()
+              : SizedBox(),
+          cm.file != null
+              ? CupertinoButton(
+                  color: Colors.greenAccent,
+                  child: network.temp
+                      ? CircularProgressIndicator()
+                      : Text('Predict'),
+                  onPressed: () async {
+                    try {
+                      await network.getData();
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                )
+              : SizedBox(),
+          network.daata.isEmpty
+              ? SizedBox()
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        network.daata.first.itemNumber.toString(),
+                        style: TextStyle(
+                            fontSize: 40,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ),
         ],
       ),
     );

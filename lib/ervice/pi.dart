@@ -9,11 +9,29 @@ class EnPoint extends ChangeNotifier {
   final urlget = "http://10.0.2.2:4000/api";
 
   String me = '';
+  List<Myresponse> daata = [];
+  bool temp = false;
+  Future<void> getData() async {
+    daata.clear();
+    try {
+      temp = true;
+      notifyListeners();
+      final response = await http.get(Uri.parse(urlget), headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      });
+      final data = Myresponse.fromjson(json.decode(response.body));
+      daata.add(data);
+      temp = false;
+      notifyListeners();
+    } catch (e) {
+      temp = false;
+      notifyListeners();
+    }
+  }
 
-  Future getData() async {
-    final response = await http.get(Uri.parse(urlget));
-    print(response.body);
-    return response.body;
+  void removeImage() {
+    daata.clear();
+    notifyListeners();
   }
 
   Future<void> getCl(File file) async {
@@ -29,5 +47,20 @@ class EnPoint extends ChangeNotifier {
     final re = jsonDecode(res.body);
     me = re['message'];
     notifyListeners();
+  }
+}
+
+class Myresponse extends ChangeNotifier {
+  final String image;
+  final Map<String, dynamic> location;
+  final int itemNumber;
+
+  Myresponse(this.image, this.location, this.itemNumber);
+  factory Myresponse.fromjson(Map<String, dynamic> loc) {
+    if (loc == null) {
+      return null;
+    } else {
+      return Myresponse(loc["image"] ?? "", loc["location"], loc["object"]);
+    }
   }
 }

@@ -1,3 +1,14 @@
-h5py==2.10.0
-tensorflow_version 1.15.2
-python 3.7.12
+python version = python 3.7.1
+python -m pip install --upgrade pip
+pip install flask
+pip install opencv-python==4.1.2.30
+pip install matplotlib
+pip install tensorflow_version 1.15.2
+pip install scipy==1.4.1
+pip install scikit-image==0.16.2
+pip install h5py==2.10.0
+pip install keras==2.3.1
+clone repo  https://github.com/pysource7/Mask_RCNN in flk folder
+change line 17 to ROOT_DIR = os.path.abspath("./flk/Mask_RCNN")
+in Counting_Pipes\flk\Mask_RCNN\demo\train_mask_rcnn_demo.py
+Add the weights to flk folder
