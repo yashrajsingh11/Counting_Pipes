@@ -22,6 +22,10 @@ We trained a mask-rcnn model, since there was no pre-trained model to detect pip
 3) Run app.py in flk folder to start the server
 4) Run main.dart in lib folder to run the application on the emulator
 
+## Demo Video
+
+https://drive.google.com/drive/folders/1SpgXv5hz6b5I5Xtd5rKa9Qf3FoYn6zvS?usp=sharing
+
 ## Future Vision
 
 1) The application can only be run on an emulator with the local host server running on the same system. We can scale it up for general purpose by deploying the model on internet instead of using a localhost.
