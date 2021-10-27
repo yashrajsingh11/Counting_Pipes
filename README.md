@@ -24,7 +24,7 @@ We trained a mask-rcnn model, since there was no pre-trained model to detect pip
 
 ## Demo Video
 
-https://drive.google.com/drive/folders/1SpgXv5hz6b5I5Xtd5rKa9Qf3FoYn6zvS?usp=sharing
+Demo Video For the same -> https://drive.google.com/drive/folders/1SpgXv5hz6b5I5Xtd5rKa9Qf3FoYn6zvS?usp=sharing
 
 ## Future Vision
 
