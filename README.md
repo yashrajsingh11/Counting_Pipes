@@ -6,7 +6,14 @@ Companies that manufacture, process, and sell pipes of different material face p
 
 We trained a mask-rcnn model and built a flutter application which can do this task very easily, thus slightly reducing the costs incured by the companies for these tasks.
 
-### Sample Screenshots
+## Achievements
+
+2nd position at [Rally-To-Tally Hackathon by Mitsubishi-Americas](https://www.hackerearth.com/challenges/hackathon/mitsubishi-americas-hackathon/) organized on HackerEarth.
+
+![Alt text](Images/img3.png?raw=true "Result")
+
+## Sample Screenshots
+
 ![Alt text](Images/img1.png?raw=true "Prediction1")
 
 ![Alt text](Images/img2.png?raw=true "Prediction2")
